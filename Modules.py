@@ -63,7 +63,9 @@ except:
 
 import shapely
 
+from shapely import geometry
 from shapely.geometry import shape
+from shapely.geometry import Polygon, mapping
 
 # DOWNLOAD MAPS
 
@@ -81,14 +83,15 @@ except:
 
 import geopandas as gpd
 
-try:
-	import folium
-except:
-	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'folium'])
+# try:
+# 	import folium
+# except:
+# 	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'folium'])
 
-import folium
+# import folium
 
 import os, shutil
+import glob
 from glob import glob
 from os import listdir
 # Import requests and beautiful soup
@@ -102,9 +105,6 @@ except:
 import bs4
 
 from bs4 import BeautifulSoup
-
-from shapely.geometry import Polygon 
-
 
 import collections
 
