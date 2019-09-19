@@ -20,7 +20,7 @@ if not os.path.exists(dir):
 ParseCSV_Dir = 'Merge_Contours/CSV_Relate/'
 
 
-Shapefile = 'C:/Users/WindowShop/Documents/GitHub/Landsat-DEM-Processing/567Contour.shp'
+Shapefile = '567Contour.shp'
 
 # Write a shapefile with buffers
 
@@ -57,7 +57,7 @@ gdf.to_file("567WithBuff_.1.shp")
 ########################################################################
 
 
-Shapefile = 'C:/Users/WindowShop/Documents/GitHub/Landsat-DEM-Processing/567WithBuff_.1.shp'
+Shapefile = '567WithBuff_.1.shp'
 
 
 # USE*** This will parse the larger file by thousands for easier iteration
