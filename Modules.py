@@ -3,8 +3,44 @@
 import subprocess
 import sys
 import os
+import os, shutil
+import glob
+from glob import glob
+from os import listdir
+from os.path import exists
+
+# Install the whl files
+############################################################
+sys.path.append("Required")
+WHL_Dir = 'Required/'
+
+try:
+	import fiona
+except:
+	subprocess.check_call([sys.executable, '-m', 'pip', 'install', WHL_Dir+'Fiona-1.8.4-cp27-cp27m-win32.whl'])
+import fiona
+
+try:
+	import gdal
+except:
+	subprocess.check_call([sys.executable, '-m', 'pip', 'install', WHL_Dir+'GDAL-2.2.4-cp27-cp27m-win32.whl'])
+import gdal
+
+try:
+	import pyproj
+except:
+	subprocess.check_call([sys.executable, '-m', 'pip', 'install', WHL_Dir+'pyproj-1.9.6-cp27-cp27m-win32.whl'])
+import pyproj
+
+try:
+	import rasterio
+except:
+	subprocess.check_call([sys.executable, '-m', 'pip', 'install', WHL_Dir+'rasterio-1.0.13-cp27-cp27m-win32.whl'])
+import rasterio
 
 
+
+#############################################################
 try:
 	import matplotlib
 except:
@@ -18,6 +54,14 @@ except:
 	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'numpy'])
 
 import numpy as np
+
+try:
+	import pandas as pd
+except:
+	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pandas'])
+
+import pandas as pd
+
 
 # GDAL (ORG included w/ GDAL) FIONA RASTERIO PYPROJ manual installation
 
@@ -38,6 +82,7 @@ from rasterio.warp import reproject, Resampling
 from rasterio.warp import calculate_default_transform, reproject, Resampling
 from rasterio.merge import merge
 from rasterio.plot import show
+from rasterio.warp import transform
 
 try:
 	import scipy
@@ -45,16 +90,6 @@ except:
 	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'scipy'])
 
 import scipy
-
-try:
-	import descartes
-except:
-	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'descartes'])
-
-import descartes
-
-
-import cartopy.crs as ccrs
 
 try:
 	import shapely
@@ -66,15 +101,10 @@ import shapely
 from shapely import geometry
 from shapely.geometry import shape
 from shapely.geometry import Polygon, mapping
+from shapely.geometry import Point
 
 # DOWNLOAD MAPS
 
-try:
-	import pandas
-except:
-	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'pandas'])
-
-import pandas as pd
 ##################################################
 try:
 	import geopandas as gpd
@@ -82,40 +112,35 @@ except:
 	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'geopandas'])
 
 import geopandas as gpd
+from geopandas import GeoDataFrame
 
-# try:
-# 	import folium
-# except:
-# 	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'folium'])
+try:
+	import tqdm
+except:
+	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tqdm'])
 
-# import folium
+import tqdm
 
-import os, shutil
-import glob
-from glob import glob
-from os import listdir
-# Import requests and beautiful soup
+try:
+	import requests
+except:
+	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'requests'])
+
 import requests
 
 try:
-	import bs4
+	import collections
 except:
-	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'bs4'])
-
-import bs4
-
-from bs4 import BeautifulSoup
+	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'collections'])
 
 import collections
 
 try:
-	import landsatxplore
+	import tarfile
 except:
-	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'landsatxplore'])
+	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tarfile'])
 
-import landsatxplore
-import landsatxplore.api
-from landsatxplore.earthexplorer import EarthExplorer
+import tarfile
 
 import datetime
 
@@ -123,14 +148,8 @@ import math
 
 import urllib2,urllib
 
-from os.path import exists
-
 import copy
 from copy import deepcopy
-
-import tarfile
-import tqdm
-# from tqdm import tqdm
 
 # Used for adding the online basemap
 try:
@@ -145,28 +164,5 @@ import time
 
 import zipfile
 
-# '*** Please install the `scikit-image` package (instead of `skimage`) ***`
-from skimage import measure
-
-from geojson import LineString
-
-from geopandas import GeoDataFrame
-from shapely.geometry import Point, shape
 import math
 
-try:
-	import xarray as xr
-except:
-	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'xarray'])
-import xarray as xr
-
-
-from rasterio.warp import transform
-
-
-from array import array
-
-
-from affine import Affine
-
-from osgeo import osr
