@@ -19,6 +19,8 @@ if not os.path.exists(dir):
     os.makedirs(dir)
 ParseCSV_Dir = 'Merge_Contours/CSV_Relate/'
 
+############################################################################
+# # USE
 
 # Shapefile = '567Contour.shp'
 
@@ -56,164 +58,172 @@ ParseCSV_Dir = 'Merge_Contours/CSV_Relate/'
 
 # ########################################################################
 
+## USE
 
-# Shapefile = '567WithBuff_.1.shp'
+Shapefile = '567WithBuff_.1.shp'
 
 
 # # USE*** This will parse the larger file by thousands for easier iteration
 
 
-# ShapeFileDF = pd.DataFrame(columns=['id', 'geometry'])
-# counter = 0
-# errorRec = []
-# FinalI = 0
-# with fiona.open(Shapefile) as input:
-# 	print '\nParsing the shapefile...\n'
-# 	ProgBarLimit = len(input)
-# 	# ProgBarLimit = 3000
-# 	for i in tqdm.tqdm(range(ProgBarLimit)):
-# 		try:
-# 			Polygon = input[i]
-# 			# Define the id for a given poly
-# 			ID = int(Polygon['properties']['id'])
-# 			Geom = Polygon['geometry']['coordinates'][0]
-# 			Geom = tuple(Geom)
-# 			from shapely.geometry import Polygon
-# 			Po = Polygon(Geom)
-# 			InsertItem = [ID, Po]
-# 		except:
-# 			print 'Error with record attribute: %i' % i
-# 			errorRec.append(i)
-# 			pass
-# 		try:
-# 			if Po.is_valid==True:
-# 				TempDF = pd.DataFrame(InsertItem)
-# 				# Rotate the data to match our desired format
-# 				TempDF = TempDF.transpose()
-# 				# Insert the column names
-# 				TempDF.columns = ['id', 'geometry']
-# 				ShapeFileDF = ShapeFileDF.append(TempDF, ignore_index = True)
-# 				counter = counter+1
-# 				FinalI = i
-# 		except:
-# 			print 'Error with record True/False Handle: %i' % i
-# 			errorRec.append(i)
-# 			pass
+ShapeFileDF = pd.DataFrame(columns=['id', 'geometry'])
+counter = 0
+errorRec = []
+FinalI = 0
+with fiona.open(Shapefile) as input:
+	print '\nParsing the shapefile...\n'
+	ProgBarLimit = len(input)
+	# ProgBarLimit = 3000
+	for i in tqdm.tqdm(range(ProgBarLimit)):
+		try:
+			Polygon = input[i]
+			# Define the id for a given poly
+			ID = int(Polygon['properties']['id'])
+			Geom = Polygon['geometry']['coordinates'][0]
+			Geom = tuple(Geom)
+			from shapely.geometry import Polygon
+			Po = Polygon(Geom)
+			InsertItem = [ID, Po]
+		except:
+			print 'Error with record attribute: %i' % i
+			errorRec.append(i)
+			pass
+		try:
+			if Po.is_valid==True:
+				TempDF = pd.DataFrame(InsertItem)
+				# Rotate the data to match our desired format
+				TempDF = TempDF.transpose()
+				# Insert the column names
+				TempDF.columns = ['id', 'geometry']
+				ShapeFileDF = ShapeFileDF.append(TempDF, ignore_index = True)
+				counter = counter+1
+				FinalI = i
+		except:
+			print 'Error with record True/False Handle: %i' % i
+			errorRec.append(i)
+			pass
 
-# 		if counter==1000:
-# 			# Convert the dataframe to a geodataframe
-# 			gdf = gpd.GeoDataFrame(ShapeFileDF, geometry='geometry')
-# 			gdf.crs = fiona.crs.from_epsg(26914)
-# 			FileName = str(i+1)+'Iteration.shp'
-# 			gdf.to_file(Parse_Dir+FileName)
-# 			ShapeFileDF = pd.DataFrame(columns=['id', 'geometry'])
-# 			counter=0
+		if counter==1000:
+			# Convert the dataframe to a geodataframe
+			gdf = gpd.GeoDataFrame(ShapeFileDF, geometry='geometry')
+			gdf.crs = fiona.crs.from_epsg(26914)
+			FileName = str(i+1)+'Iteration.shp'
+			gdf.to_file(Parse_Dir+FileName)
+			ShapeFileDF = pd.DataFrame(columns=['id', 'geometry'])
+			counter=0
 
-# if len(ShapeFileDF)!=0:
-# 	# Convert the dataframe to a geodataframe
-# 	gdf = gpd.GeoDataFrame(ShapeFileDF, geometry='geometry')
-# 	gdf.crs = fiona.crs.from_epsg(26914)
-# 	FileName = str(FinalI+1)+'Iteration.shp'
-# 	gdf.to_file(Parse_Dir+FileName)
+if len(ShapeFileDF)!=0:
+	# Convert the dataframe to a geodataframe
+	gdf = gpd.GeoDataFrame(ShapeFileDF, geometry='geometry')
+	gdf.crs = fiona.crs.from_epsg(26914)
+	FileName = str(FinalI+1)+'Iteration.shp'
+	gdf.to_file(Parse_Dir+FileName)
+print 'Completed'
+
+# sys.exit()
 
 #######################################################################
 
 # Relate each subset of data to other subsets, then write a csv document to 
-# save memory for the device.
+# save memory for the device. Use after the shapefile or buffer shapefile has 
+# been written.
 
 # Open parsed dataset piece by piece for comparison
 
 # Write list of shapefiles in directory
 
-# ParsedShapes = []
-# for file in os.listdir(Parse_Dir):
-#     if file.endswith(".shp"):
-#         ParsedShapes.append(Parse_Dir+file)
+# print 'Started'
 
-# MasterDF = pd.DataFrame(columns=['id_left', 'id_right'])
-# ProgBarLimit = len(ParsedShapes)
-# for i in tqdm.tqdm(range(ProgBarLimit)):
-# 	ShapeFileDF = pd.DataFrame(columns=['id', 'geometry'])
-# 	# Open file to be compaired with
-# 	with fiona.open(ParsedShapes[i]) as input:
-# 		# Extract the polygons from the file
-# 		for aPolygon in input:
-# 			try:
-# 				# Define the id for a given poly
-# 				ID = int(aPolygon['properties']['id'])
-# 				# Define coords and convert back to a poly item
-# 				Geom = aPolygon['geometry']['coordinates'][0]
-# 				Geom = tuple(Geom)
-# 				from shapely.geometry import Polygon
-# 				Po = Polygon(Geom)
-# 				# Write an insert item consisting of id and poly coords
-# 				InsertItem = [ID, Po]
-# 			except:
-# 				print 'Error with record attribute: %i' % i
-# 				errorRec.append(i)
-# 				pass
-# 			try:
-# 				if Po.is_valid==True:
-# 					TempDF = pd.DataFrame(InsertItem)
-# 					# Rotate the data to match our desired format
-# 					TempDF = TempDF.transpose()
-# 					# Insert the column names
-# 					TempDF.columns = ['id', 'geometry']
-# 					ShapeFileDF = ShapeFileDF.append(TempDF, ignore_index = True)
-# 			except:
-# 				print 'Error with record True/False Handle: %i' % i
-# 				errorRec.append(i)
-# 				pass
+ParsedShapes = []
+for file in os.listdir(Parse_Dir):
+    if file.endswith(".shp"):
+        ParsedShapes.append(Parse_Dir+file)
 
-# 		# Convert the dataframe to a geodataframe
-# 		gdf = gpd.GeoDataFrame(ShapeFileDF, geometry='geometry')
-# 		# Loop through remainder of files to compare the previously opened one
-# 		# to the rest of them.
-# 		for shpfl in range(len(ParsedShapes)):
-# 			with fiona.open(ParsedShapes[shpfl]) as put:
-# 				# Second dataframe for the current shapefile
-# 				ShapeFileDF2 = pd.DataFrame(columns=['id', 'geometry'])
-# 				# Extract the polygons from the file
-# 				for aPolygon in put:
-# 					try:
-# 						# Define the id for a given poly
-# 						ID = int(aPolygon['properties']['id'])
-# 						# Define coords and convert back to a poly item
-# 						Geom = aPolygon['geometry']['coordinates'][0]
-# 						Geom = tuple(Geom)
-# 						from shapely.geometry import Polygon
-# 						Po = Polygon(Geom)
-# 						# Write an insert item consisting of id and poly coords
-# 						InsertItem = [ID, Po]
-# 					except:
-# 						print 'Error with record attribute: %i' % i
-# 						errorRec.append(i)
-# 						pass
-# 					try:
-# 						if Po.is_valid==True:
-# 							TempDF = pd.DataFrame(InsertItem)
-# 							# Rotate the data to match our desired format
-# 							TempDF = TempDF.transpose()
-# 							# Insert the column names
-# 							TempDF.columns = ['id', 'geometry']
-# 							ShapeFileDF2 = ShapeFileDF2.append(TempDF, ignore_index = True)
-# 					except:
-# 						print 'Error with record True/False Handle: %i' % i
-# 						errorRec.append(i)
-# 						pass
-# 			gdf2 = gpd.GeoDataFrame(ShapeFileDF2, geometry='geometry')
-# 			# # ['id_left' 'geometry' 'index_right' 'id_right']
-# 			# Combine the files by spatial join
-# 			combine = gpd.sjoin(gdf, gdf2, how="left", op='intersects')
-# 			# Remove pairs that are null, meaning it was matched with itself
-# 			combine = combine[combine['id_left']!=combine['id_right']]
-# 			# Drop any nan values
-# 			combine = combine.dropna()
-# 			# Drop the geometry and index, we only need the relationship data
-# 			combine = combine.drop(columns=['geometry', 'index_right'])
-# 			MasterDF = MasterDF.append(combine, ignore_index = True)
-# 	MasterDF.to_csv(ParseCSV_Dir+str(i)+'MetaRelate.csv')
-# 	MasterDF = pd.DataFrame(columns=['id_left', 'id_right'])
+MasterDF = pd.DataFrame(columns=['id_left', 'id_right'])
+ProgBarLimit = len(ParsedShapes)
+# ProgBarLimit = 10
+for i in tqdm.tqdm(range(ProgBarLimit)):
+	ShapeFileDF = pd.DataFrame(columns=['id', 'geometry'])
+	# Open file to be compaired with
+	with fiona.open(ParsedShapes[i]) as input:
+		# Extract the polygons from the file
+		for aPolygon in input:
+			try:
+				# Define the id for a given poly
+				ID = int(aPolygon['properties']['id'])
+				# Define coords and convert back to a poly item
+				Geom = aPolygon['geometry']['coordinates'][0]
+				Geom = tuple(Geom)
+				from shapely.geometry import Polygon
+				Po = Polygon(Geom)
+				# Write an insert item consisting of id and poly coords
+				InsertItem = [ID, Po]
+			except:
+				print 'Error with record attribute: %i' % i
+				errorRec.append(i)
+				pass
+			try:
+				if Po.is_valid==True:
+					TempDF = pd.DataFrame(InsertItem)
+					# Rotate the data to match our desired format
+					TempDF = TempDF.transpose()
+					# Insert the column names
+					TempDF.columns = ['id', 'geometry']
+					ShapeFileDF = ShapeFileDF.append(TempDF, ignore_index = True)
+			except:
+				print 'Error with record True/False Handle: %i' % i
+				errorRec.append(i)
+				pass
+
+		# Convert the dataframe to a geodataframe
+		gdf = gpd.GeoDataFrame(ShapeFileDF, geometry='geometry')
+		# Loop through remainder of files to compare the previously opened one
+		# to the rest of them.
+		for shpfl in range(len(ParsedShapes)):
+			with fiona.open(ParsedShapes[shpfl]) as put:
+				# Second dataframe for the current shapefile
+				ShapeFileDF2 = pd.DataFrame(columns=['id', 'geometry'])
+				# Extract the polygons from the file
+				for aPolygon in put:
+					try:
+						# Define the id for a given poly
+						ID = int(aPolygon['properties']['id'])
+						# Define coords and convert back to a poly item
+						Geom = aPolygon['geometry']['coordinates'][0]
+						Geom = tuple(Geom)
+						from shapely.geometry import Polygon
+						Po = Polygon(Geom)
+						# Write an insert item consisting of id and poly coords
+						InsertItem = [ID, Po]
+					except:
+						print 'Error with record attribute: %i' % i
+						errorRec.append(i)
+						pass
+					try:
+						if Po.is_valid==True:
+							TempDF = pd.DataFrame(InsertItem)
+							# Rotate the data to match our desired format
+							TempDF = TempDF.transpose()
+							# Insert the column names
+							TempDF.columns = ['id', 'geometry']
+							ShapeFileDF2 = ShapeFileDF2.append(TempDF, ignore_index = True)
+					except:
+						print 'Error with record True/False Handle: %i' % i
+						errorRec.append(i)
+						pass
+			gdf2 = gpd.GeoDataFrame(ShapeFileDF2, geometry='geometry')
+			# # ['id_left' 'geometry' 'index_right' 'id_right']
+			# Combine the files by spatial join
+			combine = gpd.sjoin(gdf, gdf2, how="left", op='intersects')
+			# Remove pairs that are null, meaning it was matched with itself
+			combine = combine[combine['id_left']!=combine['id_right']]
+			# Drop any nan values
+			combine = combine.dropna()
+			# Drop the geometry and index, we only need the relationship data
+			combine = combine.drop(columns=['geometry', 'index_right'])
+			MasterDF = MasterDF.append(combine, ignore_index = True)
+	MasterDF.to_csv(ParseCSV_Dir+str(i)+'MetaRelate.csv')
+	MasterDF = pd.DataFrame(columns=['id_left', 'id_right'])
 
 ######################################################################################
 
@@ -291,9 +301,6 @@ for file in os.listdir(ParseCSV_Dir):
 # 	TheMatches.append(Relate)
 
 
-
-
-
 ########################################################################################
 # AllData = []
 # for csv in CSVFILES:
@@ -309,10 +316,12 @@ for file in os.listdir(ParseCSV_Dir):
 # 				AllData.append(aItem[-2::])
 
 ProgBarLimit = len(CSVFILES)
+# ProgBarLimit = 2
 # A list containing called items
 CalledItems = []
 
 TheMatches = []
+Temp = []
 AllData = []
 SI = 0
 for i in tqdm.tqdm(range(ProgBarLimit)):
@@ -337,52 +346,87 @@ for i in tqdm.tqdm(range(ProgBarLimit)):
 			CalledItems.append(Set[1])
 		if SI!=0:
 			# Lets go ahead and remove doubles of values from the called dataset
+			CalledItems = collections.Counter(CalledItems)
 			CalledItems = CalledItems.keys()
 
 			# If i is not 0 then the loop has completed once or multiple times, we will
 			# check the list of called items to see if one of the variables being pulled
 			# from the root of this loop for comparison has already been related. If so,
 			# we will return and pick a different root set for comparison.
-			for Variable in Relate:
-				for previouslycalled in CalledItems:
-					if Variable==previouslycalled:
-						print 'HA! Gotcha!'
-						sys.exit()
+			# for Variable in Relate:
+			# 	for previouslycalled in CalledItems:
+			# 		if Variable==previouslycalled:
+			# 			break
+						# print 'HA! Gotcha!'
+						# sys.exit()
 		count = 0
 		while count < len(AllData):
 			# Call each set in alldata
 			for aSet in AllData:
+				# print 'Here is the set:'
 				# print aSet
 				# Call an individual value in alldata set
 				for aItem in aSet:
+					# print 'Item in set:'
 					# print aItem
-					# if count==100:
-					# 	sys.exit()
 					# sys.exit()
 					# Append to CalledItems, we will do a key collection later to
 					# remove the doubles.
 					CalledItems.append(aItem)
 					# Call the items in our relation
 					for RItem in Relate:
+						# print 'Item in our relate'
+						# print RItem
 						# If an item from the set in alldata is the same as a single
 						# object in our relate list, then the set is related
 						if aItem==RItem:
+							# print 'match'
 							# print aItem
 							# print RItem
 							# sys.exit()
 							# Now call the set object we need to relate
-							if aItem==aSet[0]:
-								# print aSet
-								Relate.append(aItem)
-								# print Relate
-							if aItem==aSet[1]:
-								Relate.append(aItem)
+							Temp.append(aSet[0])
+							Temp.append(aSet[1])
+							# if aItem==aSet[0]:
+							# 	# print aSet
+							# 	Temp.append(aItem)
+							# 	# print Relate
+							# if aItem==aSet[1]:
+							# 	Temp.append(aItem)
 							# sys.exit()
 							# print len(Relate)
-							Relate = collections.Counter(Relate)
-							Relate = Relate.keys()
+							Temp = collections.Counter(Temp)
+							Temp = list(Temp.keys())
 			# Count the set from alldata just processed
+			# print Temp
 			count = count+1
-		TheMatches.append(Relate)
-		sys.exit()
+			# print Temp
+			# sys.exit()
+		TheMatches.append(Temp)
+		Temp = []
 		SI = SI+1
+
+Lengths = []
+
+for aList in TheMatches:
+	Lengths.append(len(aList))
+
+Filter = collections.Counter(Lengths)
+MaxLen = max(Filter)
+
+LongestRecord = []
+
+for aList in TheMatches:
+	L = len(aList)
+	if L==MaxLen:
+		LongestRecord.append(aList)
+
+if len(LongestRecord)>1:
+	print 'More than one max record'
+
+f = open('LongestRec.txt', "w+")
+for aItem in LongestRecord:
+	for ob in aItem:
+		f.write(ob+', ')
+f.close()
+

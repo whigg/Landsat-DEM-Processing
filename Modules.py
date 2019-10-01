@@ -39,6 +39,15 @@ except:
 import rasterio
 
 
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', WHL_Dir+'Shapely-1.6.4.post2-cp27-cp27m-win32.whl'])
+import shapely
+from shapely import geometry
+from shapely.geometry import shape
+from shapely.geometry import Polygon, mapping
+from shapely.geometry import Point
+
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', WHL_Dir+'Rtree-0.8.3-cp27-cp27m-win32.whl'])
+import rtree
 
 #############################################################
 try:
@@ -91,21 +100,27 @@ except:
 
 import scipy
 
-try:
-	import shapely
-except:
-	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'shapely'])
+# try:
+# 	import shapely
+# except:
+# 	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'shapely'])
 
-import shapely
+# import shapely
 
-from shapely import geometry
-from shapely.geometry import shape
-from shapely.geometry import Polygon, mapping
-from shapely.geometry import Point
+# from shapely import geometry
+# from shapely.geometry import shape
+# from shapely.geometry import Polygon, mapping
+# from shapely.geometry import Point
 
 # DOWNLOAD MAPS
 
 ##################################################
+try:
+	import rtree
+except:
+	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'rtree'])
+import rtree
+
 try:
 	import geopandas as gpd
 except:
@@ -113,6 +128,14 @@ except:
 
 import geopandas as gpd
 from geopandas import GeoDataFrame
+
+# try:
+# 	import rtree
+# except:
+# 	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'rtree'])
+
+# import rtree
+
 
 try:
 	import tqdm
@@ -152,13 +175,14 @@ import copy
 from copy import deepcopy
 
 # Used for adding the online basemap
-try:
-	import contextily as ctx
-except:
-	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'contextily'])
-import contextily as ctx
+# Failed needs glob import
+# try:
+# 	import contextily as ctx
+# except:
+# 	subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'contextily'])
+# import contextily as ctx
 
-import shapefile
+# import shapefile
 
 import time
 

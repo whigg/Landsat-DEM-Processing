@@ -87,141 +87,141 @@ gdf.crs = fiona.crs.from_epsg(3857)
 # VIEW THE DATASET
 
 # Plot enable section for basic mapping
-Plotf1 = 'False'
-Plotf2 = 'False'
-Plot_g = 'False'
-###############
+# Plotf1 = 'False'
+# Plotf2 = 'False'
+# Plot_g = 'False'
+# ###############
 
-def Plotfile1(Plotf1):
-	if Plotf1=='True':
-		# Plot file1
-		## Will show the shapefile extent plain without basemap
-		file1N = 'James River Ph4 QL3'
-		# create figure and axes for Matplotlib
-		fig, ax = plt.subplots(1, figsize=(10, 6))
-		# create map
-		file1.plot(column='Phase', ax=ax, legend=True)
-		# add a title
-		ax.set_title(file1N, size=25)
-		# create an annotation for the data source
-		ax.annotate('Source: ftp://swc:water@lidarftp.swc.nd.gov', 
-			xy = (.35, .135),
-			xycoords='figure fraction', fontsize=7, verticalalignment='top',
-			horizontalalignment='right', transform=ax.transAxes, color='gray')
-		# set xy labels
-		ax.set_xlabel('Meters (epsg:3857)')
-		ax.set_ylabel('Meters (epsg:3857)')
-		fig.savefig(f1out+file1N+'.png', dpi=300)
-		# plt.show()
+# def Plotfile1(Plotf1):
+# 	if Plotf1=='True':
+# 		# Plot file1
+# 		## Will show the shapefile extent plain without basemap
+# 		file1N = 'James River Ph4 QL3'
+# 		# create figure and axes for Matplotlib
+# 		fig, ax = plt.subplots(1, figsize=(10, 6))
+# 		# create map
+# 		file1.plot(column='Phase', ax=ax, legend=True)
+# 		# add a title
+# 		ax.set_title(file1N, size=25)
+# 		# create an annotation for the data source
+# 		ax.annotate('Source: ftp://swc:water@lidarftp.swc.nd.gov', 
+# 			xy = (.35, .135),
+# 			xycoords='figure fraction', fontsize=7, verticalalignment='top',
+# 			horizontalalignment='right', transform=ax.transAxes, color='gray')
+# 		# set xy labels
+# 		ax.set_xlabel('Meters (epsg:3857)')
+# 		ax.set_ylabel('Meters (epsg:3857)')
+# 		fig.savefig(f1out+file1N+'.png', dpi=300)
+# 		# plt.show()
 
-def Plotfile2(Plotf2):
-	if Plotf2=='True':
-		# Plot file2
-		## Will show the shapefile extent plain without basemap
-		file2N = 'James River Ph5 QL3'
-		# create figure and axes for Matplotlib
-		fig, ax = plt.subplots(1, figsize=(10, 6))
-		# create map
-		file2.plot(column='Phase', ax=ax, legend=True)
-		# add a title
-		ax.set_title(file2N, size=25)
-		# create an annotation for the data source
-		ax.annotate('Source: ftp://swc:water@lidarftp.swc.nd.gov', 
-			xy = (.35, .135),
-			xycoords='figure fraction', fontsize=7, verticalalignment='top',
-			horizontalalignment='right', transform=ax.transAxes, color='gray')
-		# set xy labels
-		ax.set_xlabel('Meters (epsg:3857)')
-		ax.set_ylabel('Meters (epsg:3857)')
-		fig.savefig(f2out+file2N+'.png', dpi=300)
-		# plt.show()
-		# sys.exit()
+# def Plotfile2(Plotf2):
+# 	if Plotf2=='True':
+# 		# Plot file2
+# 		## Will show the shapefile extent plain without basemap
+# 		file2N = 'James River Ph5 QL3'
+# 		# create figure and axes for Matplotlib
+# 		fig, ax = plt.subplots(1, figsize=(10, 6))
+# 		# create map
+# 		file2.plot(column='Phase', ax=ax, legend=True)
+# 		# add a title
+# 		ax.set_title(file2N, size=25)
+# 		# create an annotation for the data source
+# 		ax.annotate('Source: ftp://swc:water@lidarftp.swc.nd.gov', 
+# 			xy = (.35, .135),
+# 			xycoords='figure fraction', fontsize=7, verticalalignment='top',
+# 			horizontalalignment='right', transform=ax.transAxes, color='gray')
+# 		# set xy labels
+# 		ax.set_xlabel('Meters (epsg:3857)')
+# 		ax.set_ylabel('Meters (epsg:3857)')
+# 		fig.savefig(f2out+file2N+'.png', dpi=300)
+# 		# plt.show()
+# 		# sys.exit()
 
-def PlotGDF(Plot_g):
-	if Plot_g=='True':
-		## Will show the merge of the two
-		gdfN = 'James River Phase Overlay'
-		# create figure and axes for Matplotlib
-		fig, ax = plt.subplots(1, figsize=(10, 6))
-		# create map
-		gdf.plot(column='Phase', ax=ax, legend=True)
-		# add a title
-		ax.set_title(gdfN, size=25)
-		# create an annotation for the data source
-		ax.annotate('Source: ftp://swc:water@lidarftp.swc.nd.gov', 
-			xy = (.35, .135),
-			xycoords='figure fraction', fontsize=7, verticalalignment='top',
-			horizontalalignment='right', transform=ax.transAxes, color='gray')
-		# set xy labels
-		ax.set_xlabel('Meters (epsg:3857)')
-		ax.set_ylabel('Meters (epsg:3857)')
-		fig.savefig(Out_Dir+gdfN+'.png', dpi=300)
+# def PlotGDF(Plot_g):
+# 	if Plot_g=='True':
+# 		## Will show the merge of the two
+# 		gdfN = 'James River Phase Overlay'
+# 		# create figure and axes for Matplotlib
+# 		fig, ax = plt.subplots(1, figsize=(10, 6))
+# 		# create map
+# 		gdf.plot(column='Phase', ax=ax, legend=True)
+# 		# add a title
+# 		ax.set_title(gdfN, size=25)
+# 		# create an annotation for the data source
+# 		ax.annotate('Source: ftp://swc:water@lidarftp.swc.nd.gov', 
+# 			xy = (.35, .135),
+# 			xycoords='figure fraction', fontsize=7, verticalalignment='top',
+# 			horizontalalignment='right', transform=ax.transAxes, color='gray')
+# 		# set xy labels
+# 		ax.set_xlabel('Meters (epsg:3857)')
+# 		ax.set_ylabel('Meters (epsg:3857)')
+# 		fig.savefig(Out_Dir+gdfN+'.png', dpi=300)
 
-# Call upon given defs
-Plotfile1(Plotf1)
-Plotfile2(Plotf2)
-PlotGDF(Plot_g)
+# # Call upon given defs
+# Plotfile1(Plotf1)
+# Plotfile2(Plotf2)
+# PlotGDF(Plot_g)
 
-# Plot enable section for basemap mapping
-Plotf1B = 'False'
-Plotf2B = 'False'
-Plot_gB = 'False'
-##################
+# # Plot enable section for basemap mapping
+# Plotf1B = 'False'
+# Plotf2B = 'False'
+# Plot_gB = 'False'
+# ##################
 
-# This def will bring in a simple basemap
-def add_basemap(ax, zoom, url='http://tile.stamen.com/terrain/tileZ/tileX/tileY.png'):
-    xmin, xmax, ymin, ymax = ax.axis()
-    basemap, extent = ctx.bounds2img(xmin, ymin, xmax, ymax, zoom=zoom, url=url)
-    ax.imshow(basemap, extent=extent, interpolation='bilinear')
-    # restore original x/y limits
-    ax.axis((xmin, xmax, ymin, ymax))
+# # This def will bring in a simple basemap
+# def add_basemap(ax, zoom, url='http://tile.stamen.com/terrain/tileZ/tileX/tileY.png'):
+#     xmin, xmax, ymin, ymax = ax.axis()
+#     basemap, extent = ctx.bounds2img(xmin, ymin, xmax, ymax, zoom=zoom, url=url)
+#     ax.imshow(basemap, extent=extent, interpolation='bilinear')
+#     # restore original x/y limits
+#     ax.axis((xmin, xmax, ymin, ymax))
 
-def Plotfile1B(Plotf1B):
-	if Plotf1B=='True':
-		Plotf1BN = 'James River Ph4 QL3_BM'
-		# create figure and axes for Matplotlib
-		fig, ax = plt.subplots(figsize=(10, 10))
-		# create map
-		file1.plot(column='Phase', ax=ax, legend=True)
-		# Provide basemap
-		add_basemap(ax, zoom=10)
-		ax.set_title(Plotf1BN, size=25)
-		ax.set_xlabel('Meters (epsg:3857)')
-		ax.set_ylabel('Meters (epsg:3857)')
-		fig.savefig(f1out+Plotf1BN+'.png', dpi=300)
+# def Plotfile1B(Plotf1B):
+# 	if Plotf1B=='True':
+# 		Plotf1BN = 'James River Ph4 QL3_BM'
+# 		# create figure and axes for Matplotlib
+# 		fig, ax = plt.subplots(figsize=(10, 10))
+# 		# create map
+# 		file1.plot(column='Phase', ax=ax, legend=True)
+# 		# Provide basemap
+# 		add_basemap(ax, zoom=10)
+# 		ax.set_title(Plotf1BN, size=25)
+# 		ax.set_xlabel('Meters (epsg:3857)')
+# 		ax.set_ylabel('Meters (epsg:3857)')
+# 		fig.savefig(f1out+Plotf1BN+'.png', dpi=300)
 
-def Plotfile2B(Plotf2B):
-	if Plotf2B=='True':
-		Plotf2BN = 'James River Ph5 QL3_BM'
-		# create figure and axes for Matplotlib
-		fig, ax = plt.subplots(figsize=(10, 10))
-		# create map
-		file2.plot(column='Phase', ax=ax, legend=True)
-		# Provide basemap
-		add_basemap(ax, zoom=10)
-		ax.set_title(Plotf2BN, size=25)
-		ax.set_xlabel('Meters (epsg:3857)')
-		ax.set_ylabel('Meters (epsg:3857)')
-		fig.savefig(f2out+Plotf2BN+'.png', dpi=300)
+# def Plotfile2B(Plotf2B):
+# 	if Plotf2B=='True':
+# 		Plotf2BN = 'James River Ph5 QL3_BM'
+# 		# create figure and axes for Matplotlib
+# 		fig, ax = plt.subplots(figsize=(10, 10))
+# 		# create map
+# 		file2.plot(column='Phase', ax=ax, legend=True)
+# 		# Provide basemap
+# 		add_basemap(ax, zoom=10)
+# 		ax.set_title(Plotf2BN, size=25)
+# 		ax.set_xlabel('Meters (epsg:3857)')
+# 		ax.set_ylabel('Meters (epsg:3857)')
+# 		fig.savefig(f2out+Plotf2BN+'.png', dpi=300)
 
-def PlotGDFB(Plot_gB):
-	if Plot_gB=='True':
-		gdfBN = 'James River Phase Overlay_BM'
-		# create figure and axes for Matplotlib
-		fig, ax = plt.subplots(figsize=(10, 10))
-		# create map
-		gdf.plot(column='Phase', ax=ax, legend=True)
-		# Provide basemap
-		add_basemap(ax, zoom=10)
-		ax.set_title(gdfBN, size=25)
-		ax.set_xlabel('Meters (epsg:3857)')
-		ax.set_ylabel('Meters (epsg:3857)')
-		fig.savefig(Out_Dir+gdfBN+'.png', dpi=300)
+# def PlotGDFB(Plot_gB):
+# 	if Plot_gB=='True':
+# 		gdfBN = 'James River Phase Overlay_BM'
+# 		# create figure and axes for Matplotlib
+# 		fig, ax = plt.subplots(figsize=(10, 10))
+# 		# create map
+# 		gdf.plot(column='Phase', ax=ax, legend=True)
+# 		# Provide basemap
+# 		add_basemap(ax, zoom=10)
+# 		ax.set_title(gdfBN, size=25)
+# 		ax.set_xlabel('Meters (epsg:3857)')
+# 		ax.set_ylabel('Meters (epsg:3857)')
+# 		fig.savefig(Out_Dir+gdfBN+'.png', dpi=300)
 
-# Call upon given defs
-Plotfile1B(Plotf1B)
-Plotfile2B(Plotf2B)
-PlotGDFB(Plot_gB)
+# # Call upon given defs
+# Plotfile1B(Plotf1B)
+# Plotfile2B(Plotf2B)
+# PlotGDFB(Plot_gB)
 
 ###################################################################################
 ## Clip the base lidar segments to prep only ones over lake
@@ -230,25 +230,25 @@ file3 = gpd.read_file(SF_Dir+"LakeSak-polygon.shp")
 # Match crs data
 file3 = file3.to_crs(epsg=3857)
 
-# Plot enable section for Sak map (With Basemap)
-PlotSakQ = 'False'
+# # Plot enable section for Sak map (With Basemap)
+# PlotSakQ = 'False'
 
-def PlotSakB(PlotSakQ):
-	if PlotSakQ=='True':
-		PlotSakBN = 'Lake Sak Overlay_BM'
-		# create figure and axes for Matplotlib
-		fig, ax = plt.subplots(figsize=(10, 10))
-		# create map
-		file3.plot(ax=ax, legend=True, alpha=0.5, color = 'red')
-		# Provide basemap
-		add_basemap(ax, zoom=10)
-		ax.set_title(PlotSakBN, size=25)
-		ax.set_xlabel('Meters (epsg:3857)')
-		ax.set_ylabel('Meters (epsg:3857)')
-		fig.savefig(Sakout+PlotSakBN+'.png', dpi=300)
+# def PlotSakB(PlotSakQ):
+# 	if PlotSakQ=='True':
+# 		PlotSakBN = 'Lake Sak Overlay_BM'
+# 		# create figure and axes for Matplotlib
+# 		fig, ax = plt.subplots(figsize=(10, 10))
+# 		# create map
+# 		file3.plot(ax=ax, legend=True, alpha=0.5, color = 'red')
+# 		# Provide basemap
+# 		add_basemap(ax, zoom=10)
+# 		ax.set_title(PlotSakBN, size=25)
+# 		ax.set_xlabel('Meters (epsg:3857)')
+# 		ax.set_ylabel('Meters (epsg:3857)')
+# 		fig.savefig(Sakout+PlotSakBN+'.png', dpi=300)
 
-# Call the plot
-PlotSakB(PlotSakQ)
+# # Call the plot
+# PlotSakB(PlotSakQ)
 
 # Define total segments in entire lidar overlay
 TotalSegs = len(gdf)
@@ -259,30 +259,35 @@ Clip = gpd.overlay(file3, gdf, how='intersection')
 # Define total segments in selection
 SelectSegs = len(Clip)
 
-# Plot enable section for clip mapping
-PlotLDS = 'False'
-##################
+# # Plot enable section for clip mapping
+# PlotLDS = 'False'
+# ##################
 
-def PlotLDselection(PlotLDS):
-	if PlotLDS=='True':
-		PlotLDSN = 'Selected Lidar Grid Sections'
-		# create figure and axes for Matplotlib
-		fig, ax = plt.subplots(figsize=(10, 10))
-		# create map
-		Clip.plot(column='Phase', ax=ax, legend=True)
-		# Provide basemap
-		add_basemap(ax, zoom=10)
-		ax.set_title(PlotLDSN, size=25)
-		ax.set_xlabel('Meters (epsg:3857)')
-		ax.set_ylabel('Meters (epsg:3857)')
-		ax.annotate('%i of %i items in selection' % (SelectSegs, TotalSegs), 
-			xy = (.29, .26),
-			xycoords='figure fraction', fontsize=7, verticalalignment='top',
-			horizontalalignment='right', transform=ax.transAxes, color='black')
-		fig.savefig(Sakout+PlotLDSN+'.png', dpi=300)
+# def PlotLDselection(PlotLDS):
+# 	if PlotLDS=='True':
+# 		PlotLDSN = 'Selected Lidar Grid Sections'
+# 		# create figure and axes for Matplotlib
+# 		fig, ax = plt.subplots(figsize=(10, 10))
+# 		# create map
+# 		Clip.plot(column='Phase', ax=ax, legend=True)
+# 		# Provide basemap
+# 		add_basemap(ax, zoom=10)
+# 		ax.set_title(PlotLDSN, size=25)
+# 		ax.set_xlabel('Meters (epsg:3857)')
+# 		ax.set_ylabel('Meters (epsg:3857)')
+# 		ax.annotate('%i of %i items in selection' % (SelectSegs, TotalSegs), 
+# 			xy = (.29, .26),
+# 			xycoords='figure fraction', fontsize=7, verticalalignment='top',
+# 			horizontalalignment='right', transform=ax.transAxes, color='black')
+# 		fig.savefig(Sakout+PlotLDSN+'.png', dpi=300)
 
-# Call the plot
-PlotLDselection(PlotLDS)
+# # Call the plot
+# PlotLDselection(PlotLDS)
+
+
+
+
+
 ###################################################################################
 # Prep data in clip for requesting download
 

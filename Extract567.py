@@ -14,6 +14,8 @@ ShapeFileDF = pd.DataFrame(columns=['id', 'elevation', 'geometry'])
 
 ProgBarLimit = len(Folders)
 
+NewID = 0
+
 # Extract all the polygons at a specified elevation level
 print '\nExtracting DEM Polygons...\n'
 for i in tqdm.tqdm(range(ProgBarLimit)):
@@ -29,7 +31,7 @@ for i in tqdm.tqdm(range(ProgBarLimit)):
 			Elevation = Polygon['properties']['elev']
 			# Filter said elevation
 			if Elevation==567:
-				ID = Polygon['id']
+				ID = NewID
 				Geom = Polygon['geometry']['coordinates'][0]
 				# In order to remake a polygon, we must import Polygon again here.
 				# Then the list of coordinates is converted to a tuple object
@@ -45,6 +47,7 @@ for i in tqdm.tqdm(range(ProgBarLimit)):
 				# Insert the column names
 				TempDF.columns = ['id', 'elevation', 'geometry']
 				ShapeFileDF = ShapeFileDF.append(TempDF, ignore_index = True)
+				NewID = NewID+1
 
 # Convert the dataframe to a geodataframe
 gdf = gpd.GeoDataFrame(ShapeFileDF, geometry='geometry')
