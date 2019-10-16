@@ -19,6 +19,8 @@ if not os.path.exists(dir):
     os.makedirs(dir)
 ParseCSV_Dir = 'Merge_Contours/CSV_Relate/'
 
+############################################################################
+# # USE
 
 # Shapefile = '567Contour.shp'
 
@@ -56,8 +58,9 @@ ParseCSV_Dir = 'Merge_Contours/CSV_Relate/'
 
 # ########################################################################
 
+## USE
 
-# Shapefile = '567WithBuff_.1.shp'
+Shapefile = '567WithBuff_.1.shp'
 
 
 # # USE*** This will parse the larger file by thousands for easier iteration
@@ -115,15 +118,21 @@ ParseCSV_Dir = 'Merge_Contours/CSV_Relate/'
 # 	gdf.crs = fiona.crs.from_epsg(26914)
 # 	FileName = str(FinalI+1)+'Iteration.shp'
 # 	gdf.to_file(Parse_Dir+FileName)
+# print 'Completed'
+
+# sys.exit()
 
 #######################################################################
 
 # Relate each subset of data to other subsets, then write a csv document to 
-# save memory for the device.
+# save memory for the device. Use after the shapefile or buffer shapefile has 
+# been written.
 
 # Open parsed dataset piece by piece for comparison
 
 # Write list of shapefiles in directory
+
+# print 'Started'
 
 # ParsedShapes = []
 # for file in os.listdir(Parse_Dir):
@@ -132,6 +141,7 @@ ParseCSV_Dir = 'Merge_Contours/CSV_Relate/'
 
 # MasterDF = pd.DataFrame(columns=['id_left', 'id_right'])
 # ProgBarLimit = len(ParsedShapes)
+# # ProgBarLimit = 10
 # for i in tqdm.tqdm(range(ProgBarLimit)):
 # 	ShapeFileDF = pd.DataFrame(columns=['id', 'geometry'])
 # 	# Open file to be compaired with
@@ -291,9 +301,6 @@ for file in os.listdir(ParseCSV_Dir):
 # 	TheMatches.append(Relate)
 
 
-
-
-
 ########################################################################################
 # AllData = []
 # for csv in CSVFILES:
@@ -308,11 +315,13 @@ for file in os.listdir(ParseCSV_Dir):
 # 			if aItem!=['', 'id_left', 'id_right']:
 # 				AllData.append(aItem[-2::])
 
-ProgBarLimit = len(CSVFILES)
+# ProgBarLimit = len(CSVFILES)
+ProgBarLimit = 5
 # A list containing called items
 CalledItems = []
 
 TheMatches = []
+Temp = []
 AllData = []
 SI = 0
 for i in tqdm.tqdm(range(ProgBarLimit)):
@@ -337,52 +346,92 @@ for i in tqdm.tqdm(range(ProgBarLimit)):
 			CalledItems.append(Set[1])
 		if SI!=0:
 			# Lets go ahead and remove doubles of values from the called dataset
+			CalledItems = collections.Counter(CalledItems)
 			CalledItems = CalledItems.keys()
 
 			# If i is not 0 then the loop has completed once or multiple times, we will
 			# check the list of called items to see if one of the variables being pulled
 			# from the root of this loop for comparison has already been related. If so,
 			# we will return and pick a different root set for comparison.
-			for Variable in Relate:
-				for previouslycalled in CalledItems:
-					if Variable==previouslycalled:
-						print 'HA! Gotcha!'
-						sys.exit()
+			# for Variable in Relate:
+			# 	for previouslycalled in CalledItems:
+			# 		if Variable==previouslycalled:
+			# 			break
+						# print 'HA! Gotcha!'
+						# sys.exit()
 		count = 0
 		while count < len(AllData):
 			# Call each set in alldata
 			for aSet in AllData:
+				# print 'Here is the set:'
 				# print aSet
 				# Call an individual value in alldata set
 				for aItem in aSet:
+					# print 'Item in set:'
 					# print aItem
-					# if count==100:
-					# 	sys.exit()
 					# sys.exit()
 					# Append to CalledItems, we will do a key collection later to
 					# remove the doubles.
 					CalledItems.append(aItem)
 					# Call the items in our relation
 					for RItem in Relate:
+						# print 'Item in our relate'
+						# print RItem
 						# If an item from the set in alldata is the same as a single
 						# object in our relate list, then the set is related
 						if aItem==RItem:
+							# print 'match'
 							# print aItem
 							# print RItem
 							# sys.exit()
 							# Now call the set object we need to relate
-							if aItem==aSet[0]:
-								# print aSet
-								Relate.append(aItem)
-								# print Relate
-							if aItem==aSet[1]:
-								Relate.append(aItem)
+							Temp.append(aSet[0])
+							Temp.append(aSet[1])
+							# if aItem==aSet[0]:
+							# 	# print aSet
+							# 	Temp.append(aItem)
+							# 	# print Relate
+							# if aItem==aSet[1]:
+							# 	Temp.append(aItem)
 							# sys.exit()
 							# print len(Relate)
-							Relate = collections.Counter(Relate)
-							Relate = Relate.keys()
+							Temp = collections.Counter(Temp)
+							Temp = list(Temp.keys())
 			# Count the set from alldata just processed
+			# print Temp
 			count = count+1
-		TheMatches.append(Relate)
-		sys.exit()
+			# print Temp
+			# sys.exit()
+		TheMatches.append(Temp)
+		Temp = []
 		SI = SI+1
+
+# Filter through the information to define lenghts of each relation
+Lengths = []
+
+for aList in TheMatches:
+	Lengths.append(len(aList))
+
+Filter = collections.Counter(Lengths)
+MaxLen = max(Filter)
+
+LongestRecord = []
+
+i = 0
+for aList in TheMatches:
+	aList.append(Lengths[i])
+	i=i+1
+	# L = len(aList)
+	# if L==MaxLen:
+	# 	LongestRecord.append(aList)
+print TheMatches
+
+# if len(LongestRecord)>1:
+# 	print 'More than one max record'
+
+# f = open('LongestRec.txt', "w+")
+# for aItem in LongestRecord:
+# 	for ob in aItem:
+# 		f.write(ob+', ')
+# f.close()
+
